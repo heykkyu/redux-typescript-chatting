@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import {ChatListData} from "../../utils/dummyData";
-import profile1 from '../../assets/img/profile1.jpg'
+import {ChatListData} from "../../utils/dummyData"
 import { useNavigate } from "react-router-dom";
 
 const RowWhole = styled.div`
@@ -94,8 +93,13 @@ const ChatRowBox = () => {
     navigate(`/room/${room_id}`);
   }
 
-  const filterDate = (value:string) => {
+  const getFilteredDate = (value:string) => {
     return value.substring(11,16);
+  }
+
+  const getFilteredPhoto = (value:number) => {
+    const imgPath = require(`@/assets/img/img-profile${value}.jpg`);
+    return imgPath;
   }
 
   return (
@@ -107,14 +111,14 @@ const ChatRowBox = () => {
             onClick={() => goChatRoom(chat.room_id)}
           >
             <RowLeft>
-              <img src={chat.profile_img_path || profile1} alt="profile"/>
+              <img src={getFilteredPhoto(chat.room_id)} alt={`profile${chat.room_id}`} />
             </RowLeft>
             <RowCenter>
               <p>{chat.user_name}</p>
               <p>{chat.last_chat_comment}</p>
             </RowCenter>
             <RowRight>
-              <p>{filterDate(chat.last_chat_time)}</p>
+              <p>{getFilteredDate(chat.last_chat_time)}</p>
               {chat.is_read === false && (
                 <p>
                   <span>{chat.unread_cnt}</span>

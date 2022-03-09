@@ -3,10 +3,11 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import ChatList from './container/ChatList';
 import ChatRoom from './container/ChatRoom';
 import "./assets/css/_common.scss";
+import { ImgBarProvider } from './moduels/imgbar';
 
 function App() {
   return (
-    <>
+    <ImgBarProvider>
       <Router>
         <Routes>
           <Route path='/list' element={<ChatList/>} />
@@ -14,7 +15,7 @@ function App() {
           <Route path="*" element={<Navigate to="/list" /> }/>
         </Routes>
       </Router>
-    </>
+    </ImgBarProvider>
   );
 }
 
