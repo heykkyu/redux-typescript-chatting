@@ -6,7 +6,7 @@ import {ReactComponent as BackSVG} from '../../assets/img/img-back.svg'
 import {ReactComponent as PhotoSVG} from '../../assets/img/img-upload.svg'
 import {ReactComponent as SearchSVG} from '../../assets/img/img-search.svg'
 import { useNavigate } from "react-router-dom";
-import { useImgBarState, useImgBarDispatch } from '../../moduels/imgbar';
+import { useContextState, useContextDispatch } from '../../moduels/context';
 
 const BarWrap = styled.div`
   background-color: #5b36ac;
@@ -56,8 +56,8 @@ export interface propsType {
 
 const GlobalBar: React.FC<propsType> = ({type, title}) => {
   let navigate = useNavigate();
-  const state = useImgBarState();
-  const dispatch = useImgBarDispatch();
+  const state = useContextState();
+  const dispatch = useContextDispatch();
   const toggleImage = () => dispatch({ type: 'HANDLE_IMAGE_BAR' });
 
   const goBack = () => {

@@ -1,6 +1,8 @@
 import styled from "styled-components";
-import {ChatListData} from "../../utils/dummyData"
 import { useNavigate } from "react-router-dom";
+import { getTimeForList } from "../../moduels/date";
+import { useContextState, useContextDispatch } from '../../moduels/context';
+import { useEffect } from "react";
 
 const RowWhole = styled.div`
   width: 100%;
@@ -73,28 +75,17 @@ const RowRight = styled.div`
     }
   }
 `
-  
-
-interface ChatListDataType {
-  room_id: number,
-  user_name: string,
-  last_chat_comment: string,
-  last_chat_time: string,
-  profile_img_path: string,
-  is_read: boolean,
-  unread_cnt: number,
-}
 
 const ChatRowBox = () => {
-
   let navigate = useNavigate();
-  
-  const goChatRoom = (room_id: number) => {
-    navigate(`/room/${room_id}`);
-  }
+  const state = useContextState();
+  const dispatch = useContextDispatch();
+  const loadList = () => dispatch({ type: 'LOAD_CHAT_LIST' });
+  // const setCurrentUser = () => dispatch({ type: 'SET_CURRENT_USER' });
 
-  const getFilteredDate = (value:string) => {
-    return value.substring(11,16);
+  const goChatRoom = (room_id: number) => {
+    dispatch({ type: 'SET_CURRENT_USER', id: room_id });
+    navigate(`/room/${room_id}`);
   }
 
   const getFilteredPhoto = (value:number) => {
@@ -102,9 +93,13 @@ const ChatRowBox = () => {
     return imgPath;
   }
 
+  useEffect(() => {
+    loadList();
+  }, [])
+
   return (
     <>
-      {ChatListData.map((chat:ChatListDataType) => {
+      {state.chatList?.map((chat) => {
         return (
           <RowWhole
             key={chat.room_id}
@@ -118,7 +113,7 @@ const ChatRowBox = () => {
               <p>{chat.last_chat_comment}</p>
             </RowCenter>
             <RowRight>
-              <p>{getFilteredDate(chat.last_chat_time)}</p>
+              <p>{getTimeForList(chat.last_chat_time)}</p>
               {chat.is_read === false && (
                 <p>
                   <span>{chat.unread_cnt}</span>

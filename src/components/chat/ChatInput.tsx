@@ -79,14 +79,16 @@ const ChatInput = () => {
     setInputMessage(event.currentTarget.value);
 };
 
-  // const sendMessage = (e:React.KeyboardEvent<HTMLInputElement>) => {
-  //   if (e.keyCode === 13 && !e.shiftKey && e.target.value.trim().length > 0) {
-  //     e.prehandleChangeventDefault();
+  const sendMessage = (e:React.KeyboardEvent<HTMLTextAreaElement>) => {
+    const target = e.target as HTMLTextAreaElement;
+    if (e.keyCode === 13 && !e.shiftKey && target.value.trim().length > 0) {
+      e.preventDefault();
   //     setInputMessage("");
+  alert(target.value)
   //     // socketRef.current.emit("request_chat", messageObj);
   //     console.log("🔵 request_chat");
-  //   }
-  // };
+    }
+  };
 
   return (
     <InputWrap>
@@ -95,7 +97,7 @@ const ChatInput = () => {
           value={inputMessage} 
           name="textarea" 
           onChange={handleChange}
-          // onKeyDown={sendMessage} 
+          onKeyDown={sendMessage} 
           placeholder="메시지를 입력하세요." 
         />
       </InputText>

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import ChatView from "../components/chat/ChatView";
 import ChatInput from "../components/chat/ChatInput";
 import ChatImgBar from "../components/chat/ChatImgBar";
-import { useImgBarState, useImgBarDispatch } from '../moduels/imgbar';
+import { useContextState, useContextDispatch } from '../moduels/context';
 
 const Container = styled.div`
   animation: slideToLeft .5s forwards;
@@ -12,11 +12,10 @@ const Container = styled.div`
 `
 const ChatViewWrap = styled.div`
   background-color: #f9f9fb;
- 
 `
 
 const ChatRoom = () => {
-  const state = useImgBarState();
+  const state = useContextState();
 
   return (
     <Container>

@@ -9,6 +9,9 @@ const Container = styled.div`
   display: flex;
   box-sizing: border-box;
   align-items: center;
+  position: sticky;
+  top: 44px;
+  z-index: 1;
   img {
     width: 46px;
     height: 46px;
