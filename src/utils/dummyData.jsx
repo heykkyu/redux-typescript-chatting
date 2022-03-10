@@ -67,11 +67,11 @@ export const ChatListData = [
 export const ChatViewData = [
   {
     room_id: 1,
+    user_name: '정만월 사장님',
     chat_view: [
       { 
         chat_id: 32,
         sender_type: 'user',
-        user_name: '정만월 사장님',
         send_message_type: 'text',
         send_message: "출근했니?",
         send_time: "2022-03-09T02:34:33",
@@ -79,7 +79,6 @@ export const ChatViewData = [
       { 
         chat_id: 33,
         sender_type: 'user',
-        user_name: '정만월 사장님',
         send_message_type: 'text',
         send_message: "출근했냐구?",
         send_time: "2022-03-09T02:35:30",
@@ -87,7 +86,6 @@ export const ChatViewData = [
       { 
         chat_id: 34,
         sender_type: 'user',
-        user_name: '정만월 사장님',
         send_message_type: 'text',
         send_message: "어딘데 출근 안하니?",
         send_time: "2022-03-10T02:36:33",
@@ -95,7 +93,6 @@ export const ChatViewData = [
       { 
         chat_id: 364,
         sender_type: 'admin',
-        user_name: '정만월 사장님',
         send_message_type: 'text',
         send_message: "해외 출장중입니다.",
         send_time: "2022-03-10T02:37:33",
@@ -103,7 +100,6 @@ export const ChatViewData = [
       { 
         chat_id: 365,
         sender_type: 'admin',
-        user_name: '정만월 사장님',
         send_message_type: 'text',
         send_message: "해외 출장중입니다.",
         send_time: "2022-03-10T02:37:34",
@@ -111,7 +107,6 @@ export const ChatViewData = [
       { 
         chat_id: 363,
         sender_type: 'admin',
-        user_name: '정만월 사장님',
         send_message_type: 'text',
         send_message: "해외 출장중입니다.",
         send_time: "2022-03-10T02:37:30",
@@ -119,7 +114,6 @@ export const ChatViewData = [
       { 
         chat_id: 366,
         sender_type: 'admin',
-        user_name: '정만월 사장님',
         send_message_type: 'text',
         send_message: "해외 출장중입니다.",
         send_time: "2022-03-10T02:38:33",
@@ -127,7 +121,6 @@ export const ChatViewData = [
       { 
         chat_id: 367,
         sender_type: 'admin',
-        user_name: '정만월 사장님',
         send_message_type: 'text',
         send_message: "해외 출장중입니다.",
         send_time: "2022-03-10T02:38:33",
@@ -135,7 +128,6 @@ export const ChatViewData = [
       { 
         chat_id: 368,
         sender_type: 'admin',
-        user_name: '정만월 사장님',
         send_message_type: 'text',
         send_message: "해외 출장중입니다.",
         send_time: "2022-03-10T02:38:33",
@@ -143,7 +135,6 @@ export const ChatViewData = [
       { 
         chat_id: 369,
         sender_type: 'admin',
-        user_name: '정만월 사장님',
         send_message_type: 'text',
         send_message: "해외 출장중입니다.",
         send_time: "2022-03-10T02:38:33",
@@ -151,7 +142,6 @@ export const ChatViewData = [
       { 
         chat_id: 360,
         sender_type: 'admin',
-        user_name: '정만월 사장님',
         send_message_type: 'text',
         send_message: "해외 출장중입니다.",
         send_time: "2022-03-10T02:38:33",
@@ -160,11 +150,11 @@ export const ChatViewData = [
   },
   {
     room_id: 2,
+    user_name: '신정근 바텐더',
     chat_view: [
       { 
         chat_id: 33,
         sender_type: 'user',
-        user_name: '신정근 바텐더',
         send_message_type: 'text',
         send_message: "오시는길에 와인 몇병만 사다주세요",
         send_time: "2022-03-09T02:34:33",

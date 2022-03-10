@@ -1,5 +1,6 @@
-import React, {useEffect,useState} from "react";
+import React, { useState } from "react";
 import {ReactComponent as SendSVG} from '@/assets/img/img-send.svg'
+import { useContextDispatch } from '../../moduels/context';
 import styled from "styled-components";
 
 const InputWrap = styled.div`
@@ -65,29 +66,27 @@ const InputBtn = styled.div`
   z-index: 1;
 `
 
-type Props = {
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-}
-
-
 const ChatInput = () => {
   const [inputMessage, setInputMessage] = useState("");
-  const [messages, setMessages] = useState([]);
+  const dispatch = useContextDispatch()
 
- 
-  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setInputMessage(event.currentTarget.value);
-};
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInputMessage(e.currentTarget.value);
+  };
 
-  const sendMessage = (e:React.KeyboardEvent<HTMLTextAreaElement>) => {
-    const target = e.target as HTMLTextAreaElement;
-    if (e.keyCode === 13 && !e.shiftKey && target.value.trim().length > 0) {
+  const enterKeydown = (e:React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.code === "Enter") {
       e.preventDefault();
-  //     setInputMessage("");
-  alert(target.value)
-  //     // socketRef.current.emit("request_chat", messageObj);
-  //     console.log("🔵 request_chat");
+      sendMessage();
     }
+  };
+
+  const sendMessage = () => {
+    setInputMessage("");
+    dispatch({ type: 'SEND_CHAT', message: {
+      send_message: inputMessage as string,
+      send_message_type: "text"
+    }});
   };
 
   return (
@@ -97,11 +96,11 @@ const ChatInput = () => {
           value={inputMessage} 
           name="textarea" 
           onChange={handleChange}
-          onKeyDown={sendMessage} 
+          onKeyPress={enterKeydown} 
           placeholder="메시지를 입력하세요." 
         />
       </InputText>
-      <InputBtn>
+      <InputBtn onClick={()=> sendMessage()}>
         <SendSVG/>
       </InputBtn>
     </InputWrap>

@@ -1,5 +1,5 @@
-import React, {useEffect,useState} from "react";
 import styled from "styled-components";
+import { useContextDispatch } from '../../moduels/context';
 
 const Container = styled.div`
   animation: slideToBtm .5s forwards;
@@ -21,16 +21,29 @@ const Container = styled.div`
 `
 
 const ChatImgBar = () => {
+  const dispatch = useContextDispatch()
   const getFilteredPhoto = (value:number) => {
     const imgPath = require(`@/assets/img/img-send${value+1}.jpg`);
     return imgPath;
+  }
+
+  const sendImgMsg = (imgPath:string) => {
+    dispatch({ type: 'SEND_CHAT', message: {
+      send_message: imgPath,
+      send_message_type: "photo"
+    }});
   }
 
   return (
     <Container>
       {Array(7).fill(0).map((n, i) => {
         return (
-          <img key={i} src={getFilteredPhoto(i)} alt={`img${i}`} />
+          <img
+            key={i} 
+            src={getFilteredPhoto(i)} 
+            onClick={() => sendImgMsg(getFilteredPhoto(i))}
+            alt={`img${i}`}
+          />
         )
       })}
     </Container>

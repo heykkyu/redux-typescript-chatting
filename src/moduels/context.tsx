@@ -1,10 +1,11 @@
 import React, { useReducer, useContext, createContext, Dispatch } from 'react';
 import {ChatListData, ChatViewData} from "../utils/dummyData";
-
+import {getTimeToFull } from "../moduels/date"
 
 type State = {
   showImgBar: boolean;
   currentUserId: number;
+  currentUserName: string;
   chatList: ChatListDataType[];
   chatView: ChatViewDataType[];
 };
@@ -14,7 +15,7 @@ type Action =
   | { type: 'LOAD_CHAT_LIST' }
   | { type: 'LOAD_CHAT_VIEW' }
   | { type: 'SET_CURRENT_USER', id: number }
-  | { type: 'SEND_CHAT' };
+  | { type: 'SEND_CHAT', message: MessageType };
 
 interface ChatListDataType {
   room_id: number,
@@ -26,10 +27,13 @@ interface ChatListDataType {
   unread_cnt: number,
 }
 
+interface MessageType {
+  send_message: string,
+  send_message_type: string
+}
 export interface ChatViewDataType {
   chat_id: number,
   sender_type: string,
-  user_name: string,
   send_message_type: string,
   send_message: string,
   send_time: string,
@@ -45,7 +49,8 @@ function reducer(state: State, action: Action): State {
     case 'SET_CURRENT_USER':
       return {
         ...state,
-        currentUserId: action.id
+        currentUserId: action.id,
+        currentUserName: ChatViewData.find((data) => data.room_id === action.id)?.user_name || "유저"
       };
       
     case 'LOAD_CHAT_LIST':
@@ -59,7 +64,22 @@ function reducer(state: State, action: Action): State {
         ...state,
         chatView: ChatViewData.find((data) => data.room_id === state.currentUserId)?.chat_view || []
       };
-  
+
+    case 'SEND_CHAT':
+      if (!action.message.send_message.trim()) {
+        return state;
+      } else {
+        return {
+          ...state,
+          chatView: state.chatView.concat({
+            chat_id: new Date().getTime() as number,
+            sender_type: "admin",
+            send_message_type: action.message.send_message_type,
+            send_message: action.message.send_message,
+            send_time: getTimeToFull(),
+          })
+        };
+      }
 
     case 'HANDLE_IMAGE_BAR':
       return {
@@ -76,6 +96,7 @@ export function ContextProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, {
     showImgBar: false,
     currentUserId: 0,
+    currentUserName: "",
     chatList: [],
     chatView: []
   });

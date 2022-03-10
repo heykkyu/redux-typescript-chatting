@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import styled from "styled-components";
-import {ChatViewData} from "../../utils/dummyData";
-import { getTimeToFull, getTimeToShort, getTimeBetweenMin }  from "../../moduels/date";
-import { useContextState, useContextDispatch } from '../../moduels/context';
+import { getTimeToDate, getTimeToShort, getTimeBetweenMin }  from "../../moduels/date";
+import {ReactComponent as CloseSVG} from '../../assets/img/img-close.svg'
+import { useContextState, ChatViewDataType } from '../../moduels/context';
 
 const BubbleWrap = styled.div`
   padding: 10px 20px;
   height: calc(100% - 120px);
-  min-height: calc(100% - 120px);
+  min-height: calc(100vh - 175px);
   overflow: auto;
   margin-bottom: 40px;
 `
@@ -16,9 +16,9 @@ const BubbleText = styled.div<{sender_type: string}>`
   display: flex;
   flex-direction: ${(props) => props.sender_type === 'admin' && "row-reverse"}; 
   align-items: flex-end;
-  p {
-    &:nth-child(1) {
-      max-width: 70%;
+  .message-define {
+    max-width: 70%;
+    p {
       padding: 12px 15px;
       border-radius: 12px;
       font-size: 14px;
@@ -28,22 +28,76 @@ const BubbleText = styled.div<{sender_type: string}>`
       line-height: 20px;
       background-color: ${(props) => props.sender_type === 'admin' ? "#5b36ac" : "#fff"}; 
       color: ${(props) => props.sender_type === 'admin' ? "#fff" : "#363a42"};
-
     }
-    &:nth-child(2) {
-      margin: 0 8px 5px 8px;
-      font-size: 12px;
-      line-height: 14px;
-      color: #363a42;
-      opacity: .4;
-      font-weight: 500;
-
+    .message-img {
+      position: relative;
+      img {
+        width: 200px;
+        height: auto;
+        border-radius: 12px;
+      }
+      svg {
+        width: 19px;
+        height: 19px;
+        position: absolute;
+        display: block;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0,0,0,.7);
+        padding: 10px;
+        border-radius: 50%;
+      }
+      &.loading {
+      }
+      &.loaded {
+        svg {
+          display: none;
+        }
+      }
+      .message-progress {
+        position: absolute;
+        width: 200px;
+        margin-top: 5px;
+        height: 6px;
+        box-sizing: border-box;
+        border-radius: 3px;
+        background-color: #e5e5e7;
+        animation: fadeIn 1s forwards 3s;
+        > div {
+          height: 6px;
+          box-sizing: border-box;
+          border-radius: 3px;
+          background-color: #5b36ac;
+          position: absolute;
+          opacity: 0;
+          &:nth-child(1) {
+            width: 30%;
+            animation: fadeIn 6s forwards 0;
+          }
+          &:nth-child(2) {
+            width: 60%;
+            animation: fadeIn 6s forwards 1s;
+          }
+          &:nth-child(3) {
+            width: 90%;
+            animation: fadeIn 6s forwards 2s;
+          }
+        }
+      }
     }
   }
- 
+  .message-time {
+    margin: 0 8px 5px 8px;
+    font-size: 12px;
+    line-height: 14px;
+    color: #363a42;
+    opacity: .4;
+    font-weight: 500;
+  }
 `
 
-const BubbleDate = styled.div`
+const BubbleDateLine = styled.div`
   text-align: center;
   font-size: 12px;
   line-height: 14px;
@@ -72,19 +126,11 @@ const BubbleDate = styled.div`
   }
 `
 
-interface ChatViewDataType {
-  chat_id: number,
-  sender_type: string,
-  user_name: string,
-  send_message_type: string,
-  send_message: string,
-  send_time: string,
-}
-
 const ChatView = () => {
   const state = useContextState();
-  const dispatch = useContextDispatch();
-  const loadView = () => dispatch({ type: 'LOAD_CHAT_VIEW' });
+  const chatRef = useRef<HTMLDivElement>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  
   const showBubbleTextTime = (index:number, currentChat:ChatViewDataType, nextChat: ChatViewDataType) => {
     if ((index < state.chatView.length-1)
         && (currentChat.sender_type === nextChat.sender_type) 
@@ -95,28 +141,65 @@ const ChatView = () => {
     }
   }
 
-  useEffect(() => {
-    loadView();
-  }, [])
+  const scrollFix =() => {
+    if (chatRef.current) {
+      const { scrollHeight } = chatRef.current;
+      window.scrollTo(0,scrollHeight);
+    }
+  }
 
-  return (
-    <BubbleWrap>
+  useEffect(() => {
+    scrollFix();
+    setTimeout(() => {
+      scrollFix();
+    }, 200)
+
+    const data = [...state.chatView].pop();
+    if (data?.send_message_type === "photo") {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 2500)
+
+    }
+  }, [state.chatView])
+
+
+return (
+    <BubbleWrap ref={chatRef}>
       {state.chatView?.map((chat, index) => {
         return (
           <div
             key={chat.chat_id}
           >
+            {(index !== 0 && getTimeToDate(chat.send_time) !== getTimeToDate(state.chatView[index-1].send_time)) && (
+              <BubbleDateLine>
+                <span>{getTimeToDate(chat.send_time)}</span>
+              </BubbleDateLine>
+            )}
             <BubbleText
               sender_type={chat.sender_type}
             >
-              <p>{chat.send_message}</p>
-              <p>{showBubbleTextTime(index, chat, state.chatView[index+1])}</p>
+              <div className="message-define">
+                {chat.send_message_type === "text" ? (
+                  <p>{chat.send_message}</p>
+                ): (
+                  <div className={`message-img ${loading ? "loading": "loaded"}`}>
+                    <img src={chat.send_message} alt="img" />
+                    <CloseSVG/>
+                    <div className="message-progress">
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </div>
+                  </div>
+                  
+                )}
+              </div>
+              <p className="message-time">
+                {showBubbleTextTime(index, chat, state.chatView[index+1])}
+              </p>
             </BubbleText>
-            {(index !== 0 && getTimeToFull(chat.send_time) !== getTimeToFull(state.chatView[index-1].send_time)) && (
-              <BubbleDate>
-                <span>{getTimeToFull(chat.send_time)}</span>
-              </BubbleDate>
-            )}
           </div>
         )
       })}

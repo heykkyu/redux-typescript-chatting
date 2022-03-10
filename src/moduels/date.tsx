@@ -1,7 +1,18 @@
-export const getTimeToFull = (value?:string) => {
+export const getTimeToDate = (value?:string) => {
   const time = value ? new Date(value) : new Date();
 
-  return `${time.getFullYear()}년 ${time.getMonth()+1}월 ${time.getDay()}일`;
+  return `${time.getFullYear()}년 ${time.getMonth()+1}월 ${time.getDate()}일`;
+}
+
+export const getTimeToFull = (value?:string) => {
+  const time = value ? new Date(value) : new Date();
+  const month = time.getMonth() +1 < 10 ? `0${time.getMonth()+1}` : time.getMonth();
+  const day =  time.getDate() < 10 ? `0${time.getDate()}` : time.getDate();
+  const hours = time.getHours() < 10 ? `0${time.getHours()}` : time.getHours();
+  const minutes = time.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes();
+  const seconds =  time.getSeconds() < 10 ? `0${time.getSeconds()}` : time.getSeconds();
+
+  return `${time.getFullYear()}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 }
 
 export const getTimeToShort = (value:string, showSeconds?: boolean) => {

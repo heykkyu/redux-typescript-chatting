@@ -80,21 +80,18 @@ const ChatRowBox = () => {
   let navigate = useNavigate();
   const state = useContextState();
   const dispatch = useContextDispatch();
-  const loadList = () => dispatch({ type: 'LOAD_CHAT_LIST' });
-  // const setCurrentUser = () => dispatch({ type: 'SET_CURRENT_USER' });
 
   const goChatRoom = (room_id: number) => {
-    dispatch({ type: 'SET_CURRENT_USER', id: room_id });
     navigate(`/room/${room_id}`);
   }
 
-  const getFilteredPhoto = (value:number) => {
+  const getFilteredPhoto = (value: number) => {
     const imgPath = require(`@/assets/img/img-profile${value}.jpg`);
     return imgPath;
   }
 
   useEffect(() => {
-    loadList();
+    dispatch({ type: 'LOAD_CHAT_LIST' });
   }, [])
 
   return (
