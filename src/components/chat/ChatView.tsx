@@ -7,7 +7,7 @@ import { useContextState, ChatViewDataType } from '../../moduels/context';
 const BubbleWrap = styled.div`
   padding: 10px 20px;
   height: calc(100% - 120px);
-  min-height: calc(100vh - 175px);
+  min-height: calc(100vh - 180px);
   overflow: auto;
   margin-bottom: 40px;
 `

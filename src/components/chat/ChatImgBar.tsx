@@ -12,6 +12,7 @@ const Container = styled.div`
   position: sticky;
   top: 44px;
   z-index: 1;
+  overflow-x: auto;
   img {
     width: 46px;
     height: 46px;
