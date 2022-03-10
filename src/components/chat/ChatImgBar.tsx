@@ -28,10 +28,16 @@ const ChatImgBar = () => {
   }
 
   const sendImgMsg = (imgPath:string) => {
+    const newChatId = new Date().getTime() as number;
     dispatch({ type: 'SEND_CHAT', message: {
+      chat_id: newChatId,
       send_message: imgPath,
-      send_message_type: "photo"
+      send_message_type: "photo",
     }});
+
+    setTimeout(() => {
+      dispatch({ type: 'READ_SEND_MSG', chatId: newChatId});
+    }, 3000)
   }
 
   return (

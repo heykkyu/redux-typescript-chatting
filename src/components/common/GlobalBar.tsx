@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import {ReactComponent as HamburgerSVG} from '../../assets/img/img-hamburger.svg'
 import {ReactComponent as PersonSVG} from '../../assets/img/img-person.svg'

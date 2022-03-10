@@ -92,7 +92,7 @@ const ChatRowBox = () => {
 
   useEffect(() => {
     dispatch({ type: 'LOAD_CHAT_LIST' });
-  }, [])
+  }, [dispatch])
 
   return (
     <>

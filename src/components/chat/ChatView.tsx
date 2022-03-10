@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from "react";
+import React, {useEffect, useRef} from "react";
 import styled from "styled-components";
 import { getTimeToDate, getTimeToShort, getTimeBetweenMin }  from "../../moduels/date";
 import {ReactComponent as CloseSVG} from '../../assets/img/img-close.svg'
@@ -129,8 +129,6 @@ const BubbleDateLine = styled.div`
 const ChatView = () => {
   const state = useContextState();
   const chatRef = useRef<HTMLDivElement>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  
   const showBubbleTextTime = (index:number, currentChat:ChatViewDataType, nextChat: ChatViewDataType) => {
     if ((index < state.chatView.length-1)
         && (currentChat.sender_type === nextChat.sender_type) 
@@ -154,14 +152,6 @@ const ChatView = () => {
       scrollFix();
     }, 200)
 
-    const data = [...state.chatView].pop();
-    if (data?.send_message_type === "photo") {
-      setLoading(true);
-      setTimeout(() => {
-        setLoading(false);
-      }, 2500)
-
-    }
   }, [state.chatView])
 
 
@@ -184,7 +174,7 @@ return (
                 {chat.send_message_type === "text" ? (
                   <p>{chat.send_message}</p>
                 ): (
-                  <div className={`message-img ${loading ? "loading": "loaded"}`}>
+                  <div className={`message-img ${!chat.is_read ? "loading": "loaded"}`}>
                     <img src={chat.send_message} alt="img" />
                     <CloseSVG/>
                     <div className="message-progress">

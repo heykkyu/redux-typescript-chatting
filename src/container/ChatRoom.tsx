@@ -24,7 +24,7 @@ const ChatRoom = () => {
     const roomId = Number(room_id);
     dispatch({ type: 'SET_CURRENT_USER', id: roomId});
     dispatch({ type: 'LOAD_CHAT_VIEW' });
-  }, [])
+  }, [dispatch, room_id])
 
   return (
     <Container>

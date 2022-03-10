@@ -15,7 +15,8 @@ type Action =
   | { type: 'LOAD_CHAT_LIST' }
   | { type: 'LOAD_CHAT_VIEW' }
   | { type: 'SET_CURRENT_USER', id: number }
-  | { type: 'SEND_CHAT', message: MessageType };
+  | { type: 'SEND_CHAT', message: MessageType }
+  | { type: 'READ_SEND_MSG', chatId: number };
 
 interface ChatListDataType {
   room_id: number,
@@ -29,7 +30,8 @@ interface ChatListDataType {
 
 interface MessageType {
   send_message: string,
-  send_message_type: string
+  send_message_type: string,
+  chat_id: number
 }
 export interface ChatViewDataType {
   chat_id: number,
@@ -37,6 +39,7 @@ export interface ChatViewDataType {
   send_message_type: string,
   send_message: string,
   send_time: string,
+  is_read?: boolean,
 }
 
 type ContextDispatch = Dispatch<Action>;
@@ -72,14 +75,25 @@ function reducer(state: State, action: Action): State {
         return {
           ...state,
           chatView: state.chatView.concat({
-            chat_id: new Date().getTime() as number,
+            chat_id: action.message.chat_id,
             sender_type: "admin",
             send_message_type: action.message.send_message_type,
             send_message: action.message.send_message,
             send_time: getTimeToFull(),
+            is_read: false,
           })
         };
       }
+    case 'READ_SEND_MSG':
+      const viewIndex = state.chatView.findIndex((data) => data.chat_id === action.chatId);
+      const copyState = {...state};
+      if (viewIndex !== -1) {
+        copyState.chatView[viewIndex].is_read = true;
+      }
+      return {
+        ...state,
+        chatView: copyState.chatView || []
+      };
 
     case 'HANDLE_IMAGE_BAR':
       return {
@@ -98,7 +112,7 @@ export function ContextProvider({ children }: { children: React.ReactNode }) {
     currentUserId: 0,
     currentUserName: "",
     chatList: [],
-    chatView: []
+    chatView: [],
   });
 
   return (

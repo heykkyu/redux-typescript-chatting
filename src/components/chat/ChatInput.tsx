@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {ReactComponent as SendSVG} from '@/assets/img/img-send.svg'
 import { useContextDispatch } from '../../moduels/context';
 import styled from "styled-components";
@@ -67,6 +67,7 @@ const InputBtn = styled.div`
 `
 
 const ChatInput = () => {
+  const inputBox = useRef<HTMLTextAreaElement>(null);
   const [inputMessage, setInputMessage] = useState("");
   const dispatch = useContextDispatch()
 
@@ -85,9 +86,16 @@ const ChatInput = () => {
     setInputMessage("");
     dispatch({ type: 'SEND_CHAT', message: {
       send_message: inputMessage as string,
-      send_message_type: "text"
+      send_message_type: "text",
+      chat_id: new Date().getTime() as number
     }});
   };
+
+  useEffect(() => {
+    if (inputBox.current) {
+      inputBox.current.focus();
+    }
+  }, [])
 
   return (
     <InputWrap>
@@ -97,7 +105,8 @@ const ChatInput = () => {
           name="textarea" 
           onChange={handleChange}
           onKeyPress={enterKeydown} 
-          placeholder="메시지를 입력하세요." 
+          placeholder="메시지를 입력하세요."
+          ref={inputBox} 
         />
       </InputText>
       <InputBtn onClick={()=> sendMessage()}>
