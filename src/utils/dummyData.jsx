@@ -5,7 +5,7 @@ export const ChatListData = [
     last_chat_comment: '어딘데 출근 안하니, 죽고싶니?',
     last_chat_time: '2022-03-10T09:32:33',
     profile_img_path: "",
-    is_read: false,
+    is_send: false,
     unread_cnt: 2,
   },{
     room_id: 2,
@@ -13,7 +13,7 @@ export const ChatListData = [
     last_chat_comment: '오시는 길에 와인 몇병만 사다주세요',
     last_chat_time: '2022-03-10T10:34:33',
     profile_img_path: "",
-    is_read: false,
+    is_send: false,
     unread_cnt: 1,
   },
   {
@@ -22,7 +22,7 @@ export const ChatListData = [
     last_chat_comment: '휴가 잘 보내고 계신가요? 다름이 아니라 지금 급한 업무가 생겼는데 바로 전화 부탁드릴게요 ㅜ',
     last_chat_time: '2022-03-09T09:32:33',
     profile_img_path: "",
-    is_read: true,
+    is_send: true,
     unread_cnt: 0,
   },
   {
@@ -31,7 +31,7 @@ export const ChatListData = [
     last_chat_comment: '아 휴가셨군요. 약속은 다음으로 미루시죠!',
     last_chat_time: '2022-03-09T09:32:33',
     profile_img_path: "",
-    is_read: true,
+    is_send: true,
     unread_cnt: 0,
   },
   {
@@ -40,7 +40,7 @@ export const ChatListData = [
     last_chat_comment: '휴가에서 언제 돌아오시는지요. 돌아오시면 차 한잔 하실까요?',
     last_chat_time: '2022-03-09T09:32:33',
     profile_img_path: "",
-    is_read: true,
+    is_send: true,
     unread_cnt: 0,
   },
   {
@@ -49,7 +49,7 @@ export const ChatListData = [
     last_chat_comment: '304호 키를 잃어버렸어요 어떻게 해야하죠 ㅠ',
     last_chat_time: '2022-03-08T09:32:33',
     profile_img_path: "",
-    is_read: true,
+    is_send: true,
     unread_cnt: 0,
   },
   {
@@ -58,7 +58,7 @@ export const ChatListData = [
     last_chat_comment: '술먹자',
     last_chat_time: '2022-03-07T09:32:33',
     profile_img_path: "",
-    is_read: true,
+    is_send: true,
     unread_cnt: 0,
   },
 
@@ -154,6 +154,27 @@ export const ChatViewData = [
     chat_view: [
       { 
         chat_id: 33,
+        sender_type: 'user',
+        send_message_type: 'text',
+        send_message: "와인 좋아해요?",
+        send_time: "2022-03-09T02:34:33",
+      },
+      { 
+        chat_id: 34,
+        sender_type: 'admin',
+        send_message_type: 'text',
+        send_message: "네?",
+        send_time: "2022-03-09T02:34:33",
+      },
+      { 
+        chat_id: 35,
+        sender_type: 'admin',
+        send_message_type: 'text',
+        send_message: "사주시면요",
+        send_time: "2022-03-09T02:34:33",
+      },
+      { 
+        chat_id: 36,
         sender_type: 'user',
         send_message_type: 'text',
         send_message: "오시는길에 와인 몇병만 사다주세요",

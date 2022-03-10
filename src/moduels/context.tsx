@@ -24,7 +24,7 @@ interface ChatListDataType {
   last_chat_comment: string,
   last_chat_time: string,
   profile_img_path: string,
-  is_read: boolean,
+  is_send: boolean,
   unread_cnt: number,
 }
 
@@ -39,7 +39,7 @@ export interface ChatViewDataType {
   send_message_type: string,
   send_message: string,
   send_time: string,
-  is_read?: boolean,
+  is_send?: boolean,
 }
 
 type ContextDispatch = Dispatch<Action>;
@@ -80,7 +80,7 @@ function reducer(state: State, action: Action): State {
             send_message_type: action.message.send_message_type,
             send_message: action.message.send_message,
             send_time: getTimeToFull(),
-            is_read: false,
+            is_send: false,
           })
         };
       }
@@ -88,7 +88,7 @@ function reducer(state: State, action: Action): State {
       const viewIndex = state.chatView.findIndex((data) => data.chat_id === action.chatId);
       const copyState = {...state};
       if (viewIndex !== -1) {
-        copyState.chatView[viewIndex].is_read = true;
+        copyState.chatView[viewIndex].is_send = true;
       }
       return {
         ...state,

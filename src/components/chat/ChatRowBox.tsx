@@ -11,6 +11,7 @@ const RowWhole = styled.div`
   justify-content: space-between;
   padding: 7px 15px;
   box-sizing: border-box;
+  min-height: 70px;
 `
 const RowLeft = styled.div`
   max-width: 56px;
@@ -111,7 +112,7 @@ const ChatRowBox = () => {
             </RowCenter>
             <RowRight>
               <p>{getTimeForList(chat.last_chat_time)}</p>
-              {chat.is_read === false && (
+              {chat.is_send === false && (
                 <p>
                   <span>{chat.unread_cnt}</span>
                 </p>

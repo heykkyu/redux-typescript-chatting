@@ -174,7 +174,7 @@ return (
                 {chat.send_message_type === "text" ? (
                   <p>{chat.send_message}</p>
                 ): (
-                  <div className={`message-img ${!chat.is_read ? "loading": "loaded"}`}>
+                  <div className={`message-img ${!chat.is_send ? "loading": "loaded"}`}>
                     <img src={chat.send_message} alt="img" />
                     <CloseSVG/>
                     <div className="message-progress">
